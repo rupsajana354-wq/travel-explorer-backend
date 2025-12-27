@@ -14,7 +14,7 @@ app.use('/api/destinations', require('./routes/destinationRoutes'));
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/travelExplorer')
+mongoose.connect("process.env.mongodb+srv://rjrup17_db_user:<db_password>@cluster0.6tmh5pv.mongodb.net/?appName=Cluster0")
 .then(() => console.log('MongoDB Connected'))
 .catch(err => console.log(err));
 
