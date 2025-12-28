@@ -19,7 +19,6 @@ default: Date.now
 
 
 module.exports = mongoose.model('Destination', destinationSchema);
-const mongoose = require('mongoose');
 
 const DestinationSchema = new mongoose.Schema({
   name: String,
