@@ -1,25 +1,32 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 
-// middleware
+app.use(cors());
 app.use(express.json());
 
-// test route
+// 👇 IMPORTANT: routes import
+const destinationRoutes = require("./routes/destinationRoutes");
+
+// 👇 IMPORTANT: routes use
+app.use("/api/destinations", destinationRoutes);
+
 app.get("/", (req, res) => {
-  res.send("Travel Explorer API is running");
+  res.send("Travel Explorer Backend Running");
 });
 
-// MongoDB connect
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.error("Mongo Error:", err));
+const PORT = process.env.PORT || 5000;
 
-// ✅ VERY IMPORTANT: PORT binding
-const PORT = process.env.PORT || 10000;
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Connected");
+    app.listen(PORT, () =>
+      console.log(`Server running on port ${PORT}`)
+    );
+  })
+  .catch(err => console.log(err));
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 

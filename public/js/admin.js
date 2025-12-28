@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('.destination-form');
   const list = document.querySelector('.destination-list');
 
-  const API_URL = 'http://localhost:5000/api/destinations';
+  const API_URL = 'https://travel-explorer-api-4fgr.onrender.com';
 
   // Load destinations from MongoDB
   async function loadDestinations() {
