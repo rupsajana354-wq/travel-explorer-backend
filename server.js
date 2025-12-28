@@ -1,17 +1,22 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
 const app = express();
-
+app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
 
+// 🔐 SAFE CONNECT (only once)
+if (mongoose.connection.readyState === 0) {
+  mongoose.connect("process.env.mongodb+srv://rjrup17_db_user:<db_password>@cluster0.6tmh5pv.mongodb.net/?appName=Cluster0")
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.error("Mongo Error:", err));
+}
 
-app.use('/api/destinations', require('./routes/destinationRoutes'));
+const destinationRoutes = require("./routes/destinationRoutes");
+app.use("/api/destinations", destinationRoutes);
 
-mongoose.connect("process.env.mongodb+srv://rjrup17_db_user:<db_password>@cluster0.6tmh5pv.mongodb.net/?appName=Cluster0")
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.log(err));
-
-app.listen(3000, () => console.log('Server running'));
-app.use('/api/destinations', require('./routes/destinationRoutes'));
-app.use('/api/auth', require('./routes/authRoutes'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Server running");
+});
